@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layoutvote.cshtml";
+}
+
+<h2 class="text-center mb-4" style="color: #33c3cc;">Login</h2>
+
+<div class="container">
+    <form id="loginForm" class="w-100" style="max-width: 400px; margin:auto;">
+        <div class="mb-3">
+            <label for="cnic" class="form-label">Enter your CNIC</label>
+            <input type="text" id="cnic" class="form-control text-center" placeholder="12345-1234567-1" maxlength="15" required />
+            <span class="text-danger" id="errorMsg" style="display: none;">Please enter a valid CNIC in format: 12345-1234567-1</span>
+        </div>
+    </form>
+
+    <!-- Dummy Output -->
+    <div id="dummyData" class="mt-4 text-center" style="display: none;">
+        <h5 style="color: #004d66;">CNIC Detected Successfully!</h5>
+        <p><strong>Name:</strong> Neelam Shehzadi</p>
+        <p><strong>CNIC:</strong> <span id="cnicDisplay"></span></p>
+        <p><strong>Address:</strong> Jamke Cheema, Muhalla Maghrabi Kamhar, House no 469</p>
+        <a href="@Url.Action("Votecast", "Home")" class="language-btn mt-2">Cast Vote</a>
+    </div>
+</div>
+
+<script>
+    const cnicInput = document.getElementById('cnic');
+    const dummyData = document.getElementById('dummyData');
+    const errorMsg = document.getElementById('errorMsg');
+    const cnicDisplay = document.getElementById('cnicDisplay');
+
+    // Format input as CNIC pattern while typing
+    cnicInput.addEventListener('input', () => {
+        let value = cnicInput.value.replace(/\D/g, ''); // Remove all non-digit chars
+
+        if (value.length > 5 && value.length <= 12) {
+            value = value.slice(0, 5) + '-' + value.slice(5);
+        } else if (value.length > 12) {
+            value = value.slice(0, 5) + '-' + value.slice(5, 12) + '-' + value.slice(12, 13);
+        }
+
+        cnicInput.value = value;
+    });
+
+    // On Enter key press, validate CNIC and show dummy data
+    cnicInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const enteredCNIC = cnicInput.value.trim();
+            const pattern = /^\d{5}-\d{7}-\d{1}$/;
+
+            if (pattern.test(enteredCNIC)) {
+                cnicDisplay.textContent = enteredCNIC;
+                dummyData.style.display = "block";
+                errorMsg.style.display = "none";
+                cnicInput.value = "";
+            } else {
+                dummyData.style.display = "none";
+                errorMsg.style.display = "block";
+            }
+        }
+    });
+</script>

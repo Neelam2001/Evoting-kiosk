@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "شکریہ";
+    Layout = "~/Views/Shared/_Layoutvote.cshtml";
+}
+
+<!-- شکریہ اسکرین -->
+<div id="thankYouScreen" class="text-center p-5" style="display: block; cursor: pointer;">
+    <h1 style="color:#33c3cc;">🎉 آپ کا شکریہ!</h1>
+    <p style="color:#004d66;">آپ کا ووٹ کامیابی سے ریکارڈ کر لیا گیا ہے۔</p>
+    <p style="color:#004d66;">جمہوریت میں آپ کی شراکت کی قدر کی جاتی ہے۔</p>
+</div>
+
+<!-- ہدایات اسکرین -->
+<div id="instructionScreen" class="text-center p-5" style="display: none;">
+    <h2 style="color: #33c3cc;">📋 ووٹنگ کی ہدایات</h2>
+    <p class="mt-4" style="color:#004d66;">1️⃣ ہر ووٹر صرف ایک بار ووٹ ڈال سکتا ہے۔</p>
+    <p style="color:#004d66;">2️⃣ ووٹ مکمل رازداری کے ساتھ ریکارڈ کیا جائے گا۔</p>
+    <p style="color:#004d66;">3️⃣ براہ کرم ووٹ دینے سے پہلے تمام تفصیلات کی تصدیق کریں۔</p>
+    <p style="color:#004d66;">4️⃣ کسی دوسرے کے شناختی کارڈ کا استعمال قابل سزا جرم ہے۔</p>
+</div>
+
+<script>
+    let isUserInteracted = false;
+    let currentScreen = "thankyou";
+
+    // Home redirect agar user ne click kia
+    document.addEventListener('click', () => {
+        isUserInteracted = true;
+        window.location.href = '@Url.Action("Index", "Home")';
+    });
+
+    // Screen switch logic
+    function rotateScreens() {
+        if (isUserInteracted) return;
+
+        if (currentScreen === "thankyou") {
+            document.getElementById("thankYouScreen").style.display = "none";
+            document.getElementById("instructionScreen").style.display = "block";
+            currentScreen = "instructions";
+        } else {
+            document.getElementById("instructionScreen").style.display = "none";
+            document.getElementById("thankYouScreen").style.display = "block";
+            currentScreen = "thankyou";
+        }
+
+        // Repeat every 5 seconds
+        setTimeout(rotateScreens, 5000);
+    }
+
+    // Start auto rotation after 5 seconds
+    setTimeout(rotateScreens, 5000);
+</script>

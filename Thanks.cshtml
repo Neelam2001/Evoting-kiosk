@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Thanks";
+    Layout = "~/Views/Shared/_Layoutvote.cshtml";
+}
+
+<!-- Thank You Screen -->
+<div id="thankYouScreen" class="text-center p-5" style="display: block; cursor: pointer;">
+    <h1 style="color:#33c3cc;">🎉 Thank You for Voting!</h1>
+    <p style="color:#004d66;">Your vote has been recorded successfully.</p>
+    <p style="color:#004d66;">We appreciate your participation in democracy.</p>
+</div>
+
+<!-- Voting Instructions Screen -->
+<div id="instructionScreen" class="text-center p-5" style="display: none;">
+    <h2 style="color: #33c3cc;">📋 Voting Instructions</h2>
+    <p class="mt-4" style="color:#004d66;">1️⃣ Each voter is allowed to vote only once.</p>
+    <p style="color:#004d66;">2️⃣ All votes are recorded with complete confidentiality.</p>
+    <p style="color:#004d66;">3️⃣ Please verify all details before casting your vote.</p>
+    <p style="color:#004d66;">4️⃣ Using someone else's ID card is a punishable offense.</p>
+</div>
+
+<script>
+    let isUserInteracted = false;
+    let currentScreen = "thankyou";
+
+    // Redirect to home if user interacts
+    document.addEventListener('click', () => {
+        isUserInteracted = true;
+        window.location.href = '@Url.Action("Index", "Home")';
+    });
+
+    // Function to toggle screens every 5 seconds
+    function rotateScreens() {
+        if (isUserInteracted) return;
+
+        if (currentScreen === "thankyou") {
+            document.getElementById("thankYouScreen").style.display = "none";
+            document.getElementById("instructionScreen").style.display = "block";
+            currentScreen = "instructions";
+        } else {
+            document.getElementById("instructionScreen").style.display = "none";
+            document.getElementById("thankYouScreen").style.display = "block";
+            currentScreen = "thankyou";
+        }
+
+        setTimeout(rotateScreens, 5000);
+    }
+
+    // Start auto-switch after initial 5 seconds
+    setTimeout(rotateScreens, 5000);
+</script>

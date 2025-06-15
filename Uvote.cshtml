@@ -1,0 +1,138 @@
+﻿@{
+    ViewBag.Title = "ووٹ ڈالیں";
+    Layout = "~/Views/Shared/_Layoutvote.cshtml";
+}
+
+<h2 class="text-center mb-4" style="color:#33c3cc;">اپنا ووٹ ڈالیں</h2>
+
+<div class="container">
+    <div id="candidateOptions" class="d-flex flex-column gap-3 align-items-center">
+
+        <div class="candidate-option" onclick="selectCandidate('عمران خان', 'تحریک انصاف', '🏏', '@Url.Content("~/pic/imran.jpg")')">
+            <img src="@Url.Content("~/pic/imran.jpg")" alt="عمران خان">
+            <div>
+                <h5>عمران خان</h5>
+                <p>تحریک انصاف | 🏏</p>
+            </div>
+        </div>
+
+        <div class="candidate-option" onclick="selectCandidate('مریم نواز', 'مسلم لیگ ن', '🦁', '@Url.Content("~/pic/mryum.jpg")')">
+            <img src="@Url.Content("~/pic/mryum.jpg")" alt="مریم نواز">
+            <div>
+                <h5>مریم نواز</h5>
+                <p>مسلم لیگ ن | 🦁</p>
+            </div>
+        </div>
+
+        <div class="candidate-option" onclick="selectCandidate('خادم حسین رضوی', 'تحریک لبیک', '📘', '@Url.Content("~/pic/khadin.jpg")')">
+            <img src="@Url.Content("~/pic/khadin.jpg")" alt="خادم حسین رضوی">
+            <div>
+                <h5>خادم حسین رضوی</h5>
+                <p>تحریک لبیک | 📘</p>
+            </div>
+        </div>
+
+        <div class="candidate-option" onclick="selectCandidate('بلاول بھٹو', 'پیپلز پارٹی', '🏹', '@Url.Content("~/pic/bilawl.png")')">
+            <img src="@Url.Content("~/pic/bilawl.png")" alt="بلاول بھٹو">
+            <div>
+                <h5>بلاول بھٹو</h5>
+                <p>پیپلز پارٹی | 🏹</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ووٹ ڈالیں بٹن -->
+    <div class="text-center mt-4">
+        <button id="castBtn" class="btn language-btn px-5 py-2 fw-bold" onclick="showConfirmation()" disabled>ووٹ دیں</button>
+    </div>
+
+    <!-- تصدیق سیکشن -->
+    <div id="confirmation" class="mt-5 text-center" style="display: none;">
+        <h4 class="text-success">✅ آپ کا ووٹ کامیابی سے درج ہو گیا ہے!</h4>
+        <div class="card mt-3 p-4 mx-auto" style="max-width: 400px;">
+            <!-- منتخب امیدوار کی تصویر -->
+            <img id="outImage" src="" alt="منتخب امیدوار" style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px; border: 1px solid #ccc; margin-bottom: 15px;">
+
+            <p><strong>امیدوار:</strong> <span id="outCandidate"></span></p>
+            <p><strong>جماعت:</strong> <span id="outParty"></span></p>
+            <p><strong>نشان:</strong> <span id="outSymbol"></span></p>
+            <p><strong>پولنگ اسٹیشن:</strong> PS-127</p>
+            <p><strong>حلقہ نمبر:</strong> NA-78</p>
+        </div>
+        <button onclick="window.location.href='/Home/Thanks'" class="btn language-btn mt-3">ٹھیک ہے</button>
+    </div>
+</div>
+
+<style>
+    .candidate-option {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        background-color: #e6f7f9;
+        border: 2px solid transparent;
+        border-radius: 12px;
+        padding: 15px 20px;
+        width: 100%;
+        max-width: 700px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .candidate-option:hover {
+            border-color: #33c3cc;
+            background-color: #d2f0f3;
+        }
+
+        .candidate-option.selected {
+            border-color: #33c3cc;
+            background-color: #bdf0f5;
+        }
+
+        .candidate-option img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+    .language-btn {
+        background-color: #33c3cc;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+        .language-btn:hover {
+            background-color: #2aaab2;
+            transform: scale(1.02);
+        }
+</style>
+
+<script>
+    let selectedCandidate = null;
+
+    function selectCandidate(name, party, symbol, image) {
+        selectedCandidate = { name, party, symbol, image };
+
+        document.querySelectorAll('.candidate-option').forEach(opt => opt.classList.remove('selected'));
+        event.currentTarget.classList.add('selected');
+
+        document.getElementById('castBtn').disabled = false;
+    }
+
+    function showConfirmation() {
+        if (!selectedCandidate) return;
+
+        document.getElementById("outCandidate").innerText = selectedCandidate.name;
+        document.getElementById("outParty").innerText = selectedCandidate.party;
+        document.getElementById("outSymbol").innerText = selectedCandidate.symbol;
+        document.getElementById("outImage").src = selectedCandidate.image;
+
+        document.getElementById("candidateOptions").style.display = "none";
+        document.getElementById("castBtn").style.display = "none";
+        document.getElementById("confirmation").style.display = "block";
+    }
+</script>

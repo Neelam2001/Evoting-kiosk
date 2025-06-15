@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Ulogin";
+    Layout = "~/Views/Shared/_Layoutvote.cshtml";
+}
+
+<h2 class="text-center mb-4">لاگ ان</h2>
+
+<div class="container">
+    <form id="loginForm" class="w-100" style="max-width: 400px; margin:auto;">
+        <div class="mb-3">
+            <label for="cnic" class="form-label">شناختی کارڈ نمبر</label>
+            <input type="text" id="cnic" class="form-control" placeholder="اپنا شناختی کارڈ نمبر درج کریں" required />
+            <span class="text-danger" id="errorMsg" style="display: none;">براہ کرم درست شناختی کارڈ نمبر درج کریں</span>
+        </div>
+    </form>
+
+    <!-- فرضی نتیجہ (ابتدائی طور پر چھپا ہوا) -->
+    <div id="dummyData" class="mt-4 text-center" style="display: none;">
+        <h5>شناختی کارڈ نمبر کامیابی سے شناخت ہو گیا!</h5>
+        <p><strong>نام:</strong> نیلم شہزادی</p>
+        <p><strong>شناختی کارڈ نمبر:</strong> <span id="cnicDisplay"></span></p>
+        <p><strong>پتہ:</strong> جمکے چیما، محلہ مغربی کمہار، مکان نمبر 469</p>
+        <a href="@Url.Action("Uvote", "Home")" class="btn btn-primary mt-2">ووٹ دیں</a>
+    </div>
+</div>
+
+<script>
+    const cnicInput = document.getElementById('cnic');
+    const dummyData = document.getElementById('dummyData');
+    const errorMsg = document.getElementById('errorMsg');
+    const cnicDisplay = document.getElementById('cnicDisplay');
+
+    cnicInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+
+            const enteredCNIC = cnicInput.value.trim();
+
+            if (enteredCNIC.length >= 13) {
+                cnicDisplay.textContent = enteredCNIC;  // CNIC کو ڈسپلے میں شامل کریں
+                cnicInput.value = "";                   // فیلڈ کو صاف کریں
+                errorMsg.style.display = "none";
+                dummyData.style.display = "block";
+            } else {
+                errorMsg.style.display = "block";
+                dummyData.style.display = "none";
+            }
+        }
+    });
+</script>

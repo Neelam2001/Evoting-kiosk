@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "Uindex";
+    Layout = "~/Views/Shared/_Layoutvote.cshtml";
+}
+
+<h2 class="mb-4" style="color: #33c3cc;">ووٹنگ ایپ میں خوش آمدید</h2>
+<p class="mb-4" style="color: #004d66;">
+    براہ کرم ووٹ ڈالنے کے لیے لاگ ان کریں۔
+</p>
+<div class="d-flex justify-content-center gap-3 flex-wrap">
+    <a href="@Url.Action("ULogin", "Home")" class="language-btn">شناختی کارڈ نمبر درج کریں</a>
+    <a href="@Url.Action("URegister", "Home")" class="language-btn">شناختی کارڈ اسکین کریں</a>
+</div>

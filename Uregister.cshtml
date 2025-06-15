@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Uregister";
+    Layout = "~/Views/Shared/_Layoutvote.cshtml";
+}
+
+<h2>Uregister</h2>
+<h2 class="text-center mb-4">شناختی کارڈ رجسٹریشن</h2>
+
+<div class="container">
+
+    <!-- ہدایت کے لیے لائن -->
+    <div id="instructionLine" class="text-center mb-3">
+        <p>براہ کرم اپنے شناختی کارڈ کو نشان زدہ جگہ میں واضح طور پر رکھیں۔ نظام خودکار طریقے سے شناخت کرے گا اور آگے بڑھے گا۔</p>
+    </div>
+
+    <div class="d-flex flex-column align-items-center">
+
+        <!-- ویڈیو اور اوورلے -->
+        <div id="videoWrapper" style="position: relative;">
+            <video id="video" autoplay playsinline style="width: 100%; max-width: 400px; border-radius: 10px; border: 3px solid #33c3cc;"></video>
+
+            <!-- شناختی کارڈ کے لیے اوورلے باکس -->
+            <div id="overlayBox" style="position: absolute; border: 2px dashed red; width: 200px; height: 120px; top: 80px; left: 100px; z-index: 10;"></div>
+        </div>
+
+        <!-- فرضی ڈیٹا (شروع میں چھپا ہوا) -->
+        <div id="dummyData" class="mt-4 text-center" style="display: none;">
+            <h5>شناختی کارڈ کامیابی سے شناخت ہو گیا!</h5>
+            <p><strong>نام:</strong> نیلم شہزادی</p>
+            <p><strong>شناختی کارڈ نمبر:</strong> 35201-1234567-1</p>
+            <p><strong>پتہ:</strong> جمکے چیما، محلہ مغربی کمہار، مکان نمبر 469</p>
+            <a href="@Url.Action("Uvote", "Home")" class="btn btn-primary mt-2">ووٹ دیں</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const video = document.getElementById('video');
+    const dummyData = document.getElementById('dummyData');
+    const videoWrapper = document.getElementById('videoWrapper');
+    const overlayBox = document.getElementById('overlayBox');
+    const instructionLine = document.getElementById('instructionLine');
+
+    // کیمرہ اسٹریم شروع کریں
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            video.srcObject = stream;
+        })
+        .catch(error => {
+            alert('کیمرہ تک رسائی ناکام یا دستیاب نہیں۔');
+            console.error('کیمرہ ایرر:', error);
+        });
+
+    // ویڈیو چلنے کے بعد خودکار شناختی کارڈ کی پہچان
+    video.addEventListener('playing', () => {
+        setTimeout(() => {
+            // ویڈیو بند کریں
+            const stream = video.srcObject;
+            const tracks = stream.getTracks();
+            tracks.forEach(track => track.stop());
+
+            // ویڈیو، ہدایت اور اوورلے چھپائیں
+            videoWrapper.style.display = 'none';
+            instructionLine.style.display = 'none';
+
+            // فرضی ڈیٹا دکھائیں
+            dummyData.style.display = 'block';
+        }, 5000); // 5 سیکنڈ بعد شناخت
+    });
+</script>

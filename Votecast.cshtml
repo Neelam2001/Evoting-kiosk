@@ -1,0 +1,138 @@
+﻿@{
+    ViewBag.Title = "Votecast";
+    Layout = "~/Views/Shared/_Layoutvote.cshtml";
+}
+
+<h2 class="text-center mb-4" style="color:#33c3cc;">Cast Your Vote</h2>
+
+<div class="container">
+    <div id="candidateOptions" class="d-flex flex-column gap-3 align-items-center">
+
+        <div class="candidate-option" onclick="selectCandidate('Imran Khan', 'PTI', '🏏', '@Url.Content("~/pic/imran.jpg")')">
+            <img src="@Url.Content("~/pic/imran.jpg")" alt="Imran Khan">
+            <div>
+                <h5>Imran Khan</h5>
+                <p>PTI | 🏏</p>
+            </div>
+        </div>
+
+        <div class="candidate-option" onclick="selectCandidate('Maryam Nawaz', 'PML-N', '🦁', '@Url.Content("~/pic/mryum.jpg")')">
+            <img src="@Url.Content("~/pic/mryum.jpg")" alt="Maryam Nawaz">
+            <div>
+                <h5>Maryam Nawaz</h5>
+                <p>PML-N | 🦁</p>
+            </div>
+        </div>
+
+        <div class="candidate-option" onclick="selectCandidate('Khadim Hussain Rizvi', 'TLP', '📘', '@Url.Content("~/pic/khadin.jpg")')">
+            <img src="@Url.Content("~/pic/khadin.jpg")" alt="Khadim Hussain Rizvi">
+            <div>
+                <h5>Khadim Hussain Rizvi</h5>
+                <p>TLP | 📘</p>
+            </div>
+        </div>
+
+        <div class="candidate-option" onclick="selectCandidate('Bilawal Bhutto', 'PPP', '🏹', '@Url.Content("~/pic/bilawl.png")')">
+            <img src="@Url.Content("~/pic/bilawl.png")" alt="Bilawal Bhutto">
+            <div>
+                <h5>Bilawal Bhutto</h5>
+                <p>PPP | 🏹</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cast Vote Button -->
+    <div class="text-center mt-4">
+        <button id="castBtn" class="btn language-btn px-5 py-2 fw-bold" onclick="showConfirmation()" disabled>Cast Vote</button>
+    </div>
+
+    <!-- Confirmation Section -->
+    <div id="confirmation" class="mt-5 text-center" style="display: none;">
+        <h4 class="text-success">✅ Vote Cast Successfully!</h4>
+        <div class="card mt-3 p-4 mx-auto" style="max-width: 400px;">
+            <!-- Image of selected candidate -->
+            <img id="outImage" src="" alt="Candidate Image" style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px; border: 1px solid #ccc; margin-bottom: 15px;">
+
+            <p><strong>Candidate:</strong> <span id="outCandidate"></span></p>
+            <p><strong>Party:</strong> <span id="outParty"></span></p>
+            <p><strong>Symbol:</strong> <span id="outSymbol"></span></p>
+            <p><strong>Polling Station:</strong> PS-127</p>
+            <p><strong>Halka No:</strong> NA-78</p>
+        </div>
+        <button onclick="window.location.href='/Home/Thanks'" class="btn language-btn mt-3">OK</button>
+    </div>
+</div>
+
+<style>
+    .candidate-option {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        background-color: #e6f7f9;
+        border: 2px solid transparent;
+        border-radius: 12px;
+        padding: 15px 20px;
+        width: 100%;
+        max-width: 700px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .candidate-option:hover {
+            border-color: #33c3cc;
+            background-color: #d2f0f3;
+        }
+
+        .candidate-option.selected {
+            border-color: #33c3cc;
+            background-color: #bdf0f5;
+        }
+
+        .candidate-option img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+    .language-btn {
+        background-color: #33c3cc;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+        .language-btn:hover {
+            background-color: #2aaab2;
+            transform: scale(1.02);
+        }
+</style>
+
+<script>
+    let selectedCandidate = null;
+
+    function selectCandidate(name, party, symbol, image) {
+        selectedCandidate = { name, party, symbol, image };
+
+        document.querySelectorAll('.candidate-option').forEach(opt => opt.classList.remove('selected'));
+        event.currentTarget.classList.add('selected');
+
+        document.getElementById('castBtn').disabled = false;
+    }
+
+    function showConfirmation() {
+        if (!selectedCandidate) return;
+
+        document.getElementById("outCandidate").innerText = selectedCandidate.name;
+        document.getElementById("outParty").innerText = selectedCandidate.party;
+        document.getElementById("outSymbol").innerText = selectedCandidate.symbol;
+        document.getElementById("outImage").src = selectedCandidate.image;
+
+        document.getElementById("candidateOptions").style.display = "none";
+        document.getElementById("castBtn").style.display = "none";
+        document.getElementById("confirmation").style.display = "block";
+    }
+</script>

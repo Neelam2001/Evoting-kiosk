@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Welcome";
+    Layout = "~/Views/Shared/_Layoutvote.cshtml";
+}
+
+<div class="container text-center mt-5">
+    <h2 class="mb-3 tail-text"> Welcome to the Voting App </h2>
+    <p class="lead mb-4 tail-subtext">
+        Cast your vote easily and securely. Please select your language to continue.
+    </p>
+    <div class="d-flex justify-content-center gap-4 flex-wrap">
+        <a href="@Url.Action("EIndex", "Home")" class="language-btn">English</a>
+        <a href="@Url.Action("UIndex", "Home")" class="language-btn">اردو</a>
+    </div>
+</div>
